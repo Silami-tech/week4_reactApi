@@ -3,6 +3,19 @@ import'./BlogPost.css';
 import Post from './Post';
 
 class BlogPost extends Component {
+    state = {
+        listArtikel: []
+    }
+
+    componentDidMount(){
+        fetch( 'https://jsonplaceholder.typicode.com/posts') 
+            .then(response => response.json())
+            .then(jsonHasilAmbilDariAPI => {
+                this.setState( {
+                    listArtikel: jsonHasilAmbilDariAPI
+                })
+            })
+    }
     render() {
         return (
             // <div class="post-artikel">
@@ -19,7 +32,12 @@ class BlogPost extends Component {
             // </div>
             <div className="post-artikel">
                 <h2>Daftar Artikel</h2>
-                <Post/>
+                {
+                    this.state.listArtikel.map(artikel => {
+                        return <Post key={artikel.id} judul = {artikel.title} isi = {artikel.body}/>
+                    })
+                }
+                {/* <Post judul="JTI Polinema" isi=" Jurusan Teknologi Informasi - Politeknik Negeri Malang"/> */}
             </div>
         )
     }
